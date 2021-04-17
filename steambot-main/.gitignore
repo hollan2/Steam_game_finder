@@ -1,0 +1,5 @@
+venv
+catbot.json
+build
+dist
+src/*.egg-info
