@@ -3,10 +3,11 @@ import discord.utils
 import json
 import requests
 
-import catbot
-import catbot.config
+import steambot
+import steambot.config
 
-@catbot.bot.event
+@steambot.bot.event
+# Have to change all of these events:
 async def on_ready():
     print("CatBot is running!")
     app_info = await catbot.bot.application_info()

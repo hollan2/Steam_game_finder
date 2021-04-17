@@ -3,10 +3,15 @@ from random import choice
 import requests
 from typing import Union
 
-import catbot
-import catbot.config
+import steambot
+import steambot.config
 
-@catbot.bot.command()
+@steambot.bot.command()
+#Will need to change these commands:
+
+# Thinking sign up command
+# And Lets play command
+
 async def cat(ctx):
     cat = requests.get(catbot.config.searchURL, headers=catbot.config.get_headers).json()[0]
     message = await ctx.send(cat["url"])

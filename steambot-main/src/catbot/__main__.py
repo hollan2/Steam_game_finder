@@ -1,6 +1,6 @@
-import catbot
-import catbot.commands
-import catbot.config
-import catbot.events
+import steambot
+import steambot.commands
+import steambot.config
+import steambot.events
 
-catbot.bot.run(catbot.config.keys["discord"])
+steambot.bot.run(steambot.config.keys["discord"])
