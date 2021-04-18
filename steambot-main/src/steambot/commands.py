@@ -22,14 +22,21 @@ async def start_party(ctx: ext.commands.Context):
     database.db['parties'][message.id] = {}
     database.save_db()
 
+@steambot.bot.command()
 async def debug(ctx: ext.commands.Context):
     await ctx.send(database.db)
-    steambot.config.events[message.id] = {}
 
 @steambot.bot.command()
-async def enroll(ctx: ext.commands.Context,username):
-    database.db['usernames'] = username
+async def enroll(ctx: ext.commands.Context, username):
+    database.db['usernames'][ctx.message.author.id] = username
     database.save_db()
     await ctx.send(f"Hey {ctx.message.author.name}, "
 			f"thanks for signing up to Steam Game Finder "
 			f"with your username: {username}! :D")
+
+@steambot.bot.command()
+async def unenroll(ctx: ext.commands.Context):
+    database.db['usernames'].pop(ctx.message.author.id, None)
+    database.save_db()
+    await ctx.send(f"Hey {ctx.message.author.name}, "
+			f"you have been unenrolled! ")

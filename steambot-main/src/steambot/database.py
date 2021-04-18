@@ -17,3 +17,4 @@ def load_db():
     with open('data.txt') as json_file:
         temp = json.load(json_file)
         db['parties'] = temp['parties']
+        db['usernames'] = temp['usernames']
