@@ -3,6 +3,7 @@ from discord import ext
 from random import choice
 import requests
 from typing import Union
+from . import database
 
 import steambot
 import steambot.config
@@ -21,6 +22,11 @@ async def cat(ctx):
 
 @steambot.bot.command()
 async def start_party(ctx: ext.commands.Context):
-    message = await ctx.send(f"{ctx.author} want's to play a game!"
+    message = await ctx.send(f"{ctx.author} want's to play a game! "
                              f"React to this message to join a steam party!")
-    steambot.config.events[message.id] = {}
+    database.db['parties'][message.id] = {}
+    database.save_db()
+
+@steambot.bot.command()
+async def debug(ctx: ext.commands.Context):
+    await ctx.send(database.db)

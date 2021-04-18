@@ -17,6 +17,5 @@ get_headers = None
 post_headers = None
 
 cats = {}
-events = {}
 
 keys = None
