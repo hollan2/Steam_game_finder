@@ -10,25 +10,25 @@ import steambot.config
 # Have to change all of these events:
 async def on_ready():
     print("CatBot is running!")
-    app_info = await catbot.bot.application_info()
-    oauth_url = discord.utils.oauth_url(app_info.id, permissions=catbot.config.permissions)
+    app_info = await steambot.bot.application_info()
+    oauth_url = discord.utils.oauth_url(app_info.id, permissions=steambot.config.permissions)
     print("Use this URL to add CatBot to your Discord server:")
     print(oauth_url)
 
-@catbot.bot.event
+@steambot.bot.event
 async def on_reaction_add(reaction: Reaction, user: User):
     emoji = reaction.emoji
-    cat = catbot.config.cats[reaction.message.id]
+    cat = steambot.config.cats[reaction.message.id]
 
     if cat is not None:
-        if emoji in catbot.config.reactions:
-            catbot.config.reactions[emoji].append(cat)
+        if emoji in steambot.config.reactions:
+            steambot.config.reactions[emoji].append(cat)
         else:
-            catbot.config.reactions[emoji] = [cat]
+            steambot.config.reactions[emoji] = [cat]
 
-        if emoji == catbot.config.vote_emoji:
+        if emoji == steambot.config.vote_emoji:
             data = json.dumps({ "image_id": cat, "sub_id": "test", "value": 1 })
-            vote = requests.post(catbot.config.voteURL, data=data, headers=catbot.config.post_headers)
+            vote = requests.post(steambot.config.voteURL, data=data, headers=steambot.config.post_headers)
             vote.raise_for_status()
             reply = "vote #{id} sent, server message: {message}".format(**vote.json())
             await reaction.message.channel.send(reply)
