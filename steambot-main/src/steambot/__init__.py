@@ -26,4 +26,7 @@ except TypeError as e:
 steambot.config.get_headers = { "x-api-key": steambot.config.keys["thecatapi"] } #insert steam api in the quotations
 steambot.config.post_headers = { "x-api-key": steambot.config.keys["thecatapi"], "Content-Type": "application/json" } #insert steam api in the quotations
 
-bot = discord.ext.commands.Bot(command_prefix=steambot.config.command_prefix)
+intents = discord.Intents.default()
+intents.members = True
+bot = discord.ext.commands.Bot(command_prefix=steambot.config.command_prefix,\
+      intents=intents)

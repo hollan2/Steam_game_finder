@@ -17,6 +17,6 @@ get_headers = None
 post_headers = None
 
 cats = {}
-reactions = {}
+events = {}
 
 keys = None

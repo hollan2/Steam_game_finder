@@ -1,4 +1,5 @@
 from discord import Emoji, PartialEmoji
+from discord import ext
 from random import choice
 import requests
 from typing import Union
@@ -19,10 +20,7 @@ async def cat(ctx):
     print("cat:", cat["id"])
 
 @steambot.bot.command()
-async def recat(ctx, emoji: Union[Emoji,PartialEmoji,str]):
-    if emoji in steambot.config.reactions:
-        catURL = steambot.config.imageURL.format(choice(steambot.config.reactions[emoji]))
-        cat = requests.get(catURL, headers=steambot.config.get_headers).json()
-        await ctx.send(cat["url"])
-    else:
-        await ctx.send("You haven't reacted to any cats with {}".format(emoji))
+async def start_party(ctx: ext.commands.Context):
+    message = await ctx.send(f"{ctx.author} want's to play a game!"
+                             f"React to this message to join a steam party!")
+    steambot.config.events[message.id] = {}
