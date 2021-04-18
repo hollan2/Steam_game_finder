@@ -4,7 +4,7 @@ from pprint import pprint
 import requests
 import json
 
-STEAM_KEY='<fillmein>'
+STEAM_KEY='07A7865AAA2826943EE2151E31F47013'
 
 def get_games_list_from_steamid(api, steamid):
     games_list = api.IPlayerService.GetOwnedGames(
@@ -58,6 +58,22 @@ def is_game_multiplayer(appid, games_info):
 def get_steam_ids(urls):
      return [steam.steamid.steam64_from_url(url, http_timeout=30) for url in urls]
 
+def add_metacritic(games_list, games_info):
+    metacritic_list = games_list.copy()
+    for k,v in games_list.items():
+        metacritic_list[k]['metacritic'] = games_info[k].get('metacritic', None)
+    return metacritic_list
+
+def get_score(game):
+    playtime_score = sum(game['playtime'])
+    metacritic_score = 75 if game['metacritic'] == None else game['metacritic']['score']
+    return playtime_score * metacritic_score
+
+def get_best_games(games_list):
+    real_games_list = list(games_list.values())
+    real_games_list.sort(key=lambda x: get_score(x), reverse=True)
+    return [a['name'] for a in real_games_list[0:5]]
+
 if __name__ == "__main__":
     steam_ids = get_steam_ids(["https://steamcommunity.com/id/logustus/", "https://steamcommunity.com/profiles/76561198039359036", "https://steamcommunity.com/id/rattboi/"])
 
@@ -68,6 +84,6 @@ if __name__ == "__main__":
         games.pop(key)
         games_info.pop(key)
 
-    multiplayer_games = [games[g] for g in games.keys() if is_game_multiplayer(g, games_info)]
-    # pprint([v.get('metacritic', 75) for k,v in games_info.items()])
-    pprint(multiplayer_games)
+    multiplayer_games = {appid: games[appid] for appid in games.keys() if is_game_multiplayer(appid, games_info)}
+    games_with_metacritic = add_metacritic(multiplayer_games, games_info)
+    pprint(get_best_games(games_with_metacritic))
