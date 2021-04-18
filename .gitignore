@@ -1,5 +1,5 @@
 venv
-catbot.json
+steambot.json
 build
 dist
 src/*.egg-info

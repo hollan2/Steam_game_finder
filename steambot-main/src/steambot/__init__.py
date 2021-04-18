@@ -23,7 +23,7 @@ except TypeError as e:
     print("Review the README file for this project if you don't know where to find these values.")
     raise SteamBotConfigNotLoadedError()
 
-steambot.config.get_headers = { "x-api-key": steambot.config.keys[""] } #insert steam api in the quotations
-steambot.config.post_headers = { "x-api-key": steambot.config.keys[""], "Content-Type": "application/json" } #insert steam api in the quotations
+steambot.config.get_headers = { "x-api-key": steambot.config.keys["thecatapi"] } #insert steam api in the quotations
+steambot.config.post_headers = { "x-api-key": steambot.config.keys["thecatapi"], "Content-Type": "application/json" } #insert steam api in the quotations
 
 bot = discord.ext.commands.Bot(command_prefix=steambot.config.command_prefix)
