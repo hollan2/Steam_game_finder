@@ -8,7 +8,6 @@ import steambot
 import steambot.config
 
 @steambot.bot.event
-# Have to change all of these events:
 async def on_ready():
     print("steambot is running!")
     database.load_db()

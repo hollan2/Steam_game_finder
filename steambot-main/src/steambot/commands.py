@@ -8,11 +8,6 @@ from . import database
 import steambot
 import steambot.config
 
-@steambot.bot.command()
-#Will need to change these commands:
-
-# Thinking sign up command
-# And Lets play command
 
 async def cat(ctx):
     cat = requests.get(steambot.config.searchURL, headers=steambot.config.get_headers).json()[0]
@@ -27,6 +22,11 @@ async def start_party(ctx: ext.commands.Context):
     database.db['parties'][message.id] = {}
     database.save_db()
 
-@steambot.bot.command()
 async def debug(ctx: ext.commands.Context):
     await ctx.send(database.db)
+    steambot.config.events[message.id] = {}
+
+@steambot.bot.command()
+async def enroll_user(ctx, username):
+    steambot.config.usernames[user.id] = username
+    await ctx.send("Thanks for signing up :D")

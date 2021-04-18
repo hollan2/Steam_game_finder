@@ -16,6 +16,7 @@ voteURL   = "https://api.thecatapi.com/v1/votes"
 get_headers = None
 post_headers = None
 
-cats = {}
+usernames = {}
+events = {}
 
 keys = None
