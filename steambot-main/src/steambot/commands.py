@@ -10,6 +10,10 @@ import steambot.config
 
 import steam.steamid
 
+from . import steam_api
+
+import json
+
 async def cat(ctx):
     cat = requests.get(steambot.config.searchURL, headers=steambot.config.get_headers).json()[0]
     message = await ctx.send(cat["url"])
@@ -56,3 +60,18 @@ async def unenroll(ctx: ext.commands.Context):
     database.save_db()
     await ctx.send(f"Hey {ctx.message.author.name}, "
 			f"you have been unenrolled! ")
+
+@steambot.bot.command()
+async def get_list(ctx: ext.commands.Context):
+    games = steam_api.compare_games("", database.db['usernames'].values()) 
+    games_info = {g: steam_api.get_game_info("", g) for g in games.keys()}
+    no_info_games = {k:v for k,v in games_info.items() if v == {}}
+    for key in no_info_games:
+        games.pop(key)
+        games_info.pop(key)
+
+    multiplayer_games = {appid: games[appid] for appid in games.keys() if steam_api.is_game_multiplayer(appid, games_info)}
+    games_with_metacritic = steam_api.add_metacritic(multiplayer_games, games_info)
+    message = steam_api.get_best_games(games_with_metacritic)
+    await ctx.send(message)
+    

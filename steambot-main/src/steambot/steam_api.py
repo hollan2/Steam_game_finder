@@ -4,7 +4,7 @@ from pprint import pprint
 import requests
 import json
 
-STEAM_KEY='07A7865AAA2826943EE2151E31F47013'
+STEAM_KEY=''
 
 def get_games_list_from_steamid(api, steamid):
     games_list = api.IPlayerService.GetOwnedGames(
