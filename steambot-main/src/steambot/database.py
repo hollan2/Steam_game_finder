@@ -1,7 +1,7 @@
 import json
 from os import path
 
-db = {'parties': {}}
+db = {'parties': {}, 'usernames':{}}
 
 
 def save_db():

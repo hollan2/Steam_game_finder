@@ -28,5 +28,8 @@ async def debug(ctx: ext.commands.Context):
 
 @steambot.bot.command()
 async def enroll(ctx: ext.commands.Context,username):
-    steambot.config.usernames[ctx.message.author.name] = username
-    await ctx.send(f"Hey {ctx.message.author.name}, thanks for signing up to Steam Game Finder with your username: {username}! :D")
+    database.db['usernames'] = username
+    database.save_db()
+    await ctx.send(f"Hey {ctx.message.author.name}, "
+			f"thanks for signing up to Steam Game Finder "
+			f"with your username: {username}! :D")
