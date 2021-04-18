@@ -8,6 +8,7 @@ from . import database
 import steambot
 import steambot.config
 
+import steam.steamid
 
 async def cat(ctx):
     cat = requests.get(steambot.config.searchURL, headers=steambot.config.get_headers).json()[0]
@@ -27,8 +28,23 @@ async def debug(ctx: ext.commands.Context):
     await ctx.send(database.db)
 
 @steambot.bot.command()
-async def enroll(ctx: ext.commands.Context, username):
-    database.db['usernames'][ctx.message.author.id] = username
+async def enroll(ctx: ext.commands.Context, username: str):
+    #steamId = steam.steamid.SteamID(username)
+    #if not steamId.is_valid():
+
+    if username.isdigit():
+        url = f"https://steamcommunity.com/profiles/{username}"
+    else:
+        url = f"https://steamcommunity.com/id/{username}"
+
+    id64 = steam.steamid.steam64_from_url(url, http_timeout=30)
+    if id64 is None:
+        await ctx.send(f"Hey {ctx.message.author.name}, "
+                        f"the provided steam id {username} "
+                        f"is invalid")
+        return
+
+    database.db['usernames'][ctx.message.author.id] = id64
     database.save_db()
     await ctx.send(f"Hey {ctx.message.author.name}, "
 			f"thanks for signing up to Steam Game Finder "
