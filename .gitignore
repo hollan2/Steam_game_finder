@@ -6,3 +6,4 @@ src/*.egg-info
 .swp
 .idea/
 data.txt
+**/__pycache__/
